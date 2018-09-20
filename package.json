@@ -1,0 +1,28 @@
+{
+  "name": "uos-app-transaction",
+  "version": "0.1.0",
+  "description": "NPM package to sign UOS transactions",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/gravityprotocol/uos.app.transaction.git"
+  },
+  "keywords": [
+    "UOS",
+    "EOS",
+    "DPOS",
+    "DPOI"
+  ],
+  "author": "UOS",
+  "license": "MIT",
+  "homepage": "https://github.com/UOSnetwork/uos.app.transaction#readme",
+  "devDependencies": {
+    "jest": "23.6.0"
+  },
+  "dependencies": {
+    "eosjs": "16.0.8"
+  }
+}

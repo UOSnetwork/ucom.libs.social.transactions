@@ -1,0 +1,7 @@
+{
+  "eos_config": {
+    "httpEndpoint": "http://142.93.100.96:8888",
+    "test_smart_contract": "tst.activity",
+    "production_smart_contract": "uos.activity"
+  }
+}
