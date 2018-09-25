@@ -19,7 +19,7 @@ body = {
 ## How to install:
 
 ```
-npm i git+ssh://git@bitbucket.org/gravityprotocol/uos.app.transaction.git
+npm i git+ssh://git@bitbucket.org/gravityprotocol/uos.app.transaction.git#latest
 ```
 
 ## User to user transactions
