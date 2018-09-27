@@ -1,6 +1,6 @@
 {
   "name": "uos-app-transaction",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "NPM package to sign UOS transactions",
   "main": "index.js",
   "scripts": {
