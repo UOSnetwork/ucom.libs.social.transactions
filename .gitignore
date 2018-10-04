@@ -8,7 +8,6 @@ yarn-debug.log*
 yarn-error.log*
 .idea
 package-lock.json
-test/
 
 # Runtime data
 pids
