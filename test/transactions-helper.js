@@ -285,6 +285,118 @@ class TransactionsHelper {
       }
     }
   }
+  static getSampleTransactionForOrgCreatesCommentOnPost() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "makecontorg",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
+
+  static getSampleTransactionForUserHimselfCreatesCommentOnPost() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "makecontent",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
+
+  static getSampleTransactionForOrgCreatesCommentOnComment() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "makecontorg",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69642073616d706c655f6e65775f636f6d6d656e745f626c6f636b636861696e5f6964032373616d706c655f706172656e745f636f6d6d656e745f626c6f636b636861696e5f6964"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
+
+  static getSampleTransactionForUserHimselfCreatesCommentOnComment() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "makecontent",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
 
   static getSamplePushResultForMediaPost() {
     return {
@@ -452,6 +564,168 @@ class TransactionsHelper {
               },
               "cpu_usage": 0,
               "console": `makecontent acc = ${SENDER_ACCOUNT_NAME}organization_id = sample_org_blockchain_id content_id = sample_post_blockchain_id content_type_id = 2 parent_content_id = `,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+  static getSamplePushResultForOrgCreatesCommentOnPost() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+          },
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "code_sequence": 5,
+                "abi_sequence": 5
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "makecontorg",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "sample_new_comment_blockchain_id",
+                  "content_type_id": 3,
+                  "parent_content_id": "sample_parent_post_blockchain_id",
+                },
+              },
+              "cpu_usage": 0,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+
+  static getSamplePushResultForUserHimselfCreatesCommentOnPost() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+          },
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "code_sequence": 5,
+                "abi_sequence": 5
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "makecontent",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "sample_new_comment_blockchain_id",
+                  "content_type_id": 3,
+                  "parent_content_id": "sample_parent_post_blockchain_blockchain_id",
+                },
+              },
+              "cpu_usage": 0,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+  static getSamplePushResultForOrgCreatesCommentOnComment() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+            "net_usage_words": 25
+          },
+          "net_usage": 200,
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "act_digest": "098cf19c5d9131eecac8792ee6d313f3cc9c969455f944f4fb72a8c9b03fecb2",
+                "code_sequence": 5,
+                "abi_sequence": 5
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "makecontorg",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "sample_new_comment_blockchain_id",
+                  "content_type_id": 3,
+                  "parent_content_id": "sample_parent_comment_blockchain_id",
+                },
+                "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69642073616d706c655f6e65775f636f6d6d656e745f626c6f636b636861696e5f6964032373616d706c655f706172656e745f636f6d6d656e745f626c6f636b636861696e5f6964"
+              },
+              "cpu_usage": 0,
+              "console": `makecontent acc = ${SENDER_ACCOUNT_NAME}organization_id = sample_org_blockchain_id content_id = sample_new_comment_blockchain_id content_type_id = 3 parent_content_id = sample_parent_comment_blockchain_id`,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+  static getSamplePushResultForUserHimselfCreatesCommentOnComment() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+          },
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "code_sequence": 5,
+                "abi_sequence": 5
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "makecontent",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "sample_new_comment_blockchain_id",
+                  "content_type_id": 3,
+                  "parent_content_id": "sample_parent_comment_blockchain_id",
+                },
+              },
+              "cpu_usage": 0,
               "total_cpu_usage": 0,
               "inline_traces": []
             }
