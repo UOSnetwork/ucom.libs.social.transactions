@@ -40,7 +40,7 @@ describe('Transaction tests', () => {
       }, 10000);
     });
     describe('Organization creates content', () => {
-      it('should create valid transaction - organization creates media post', async () => {
+      it('Organization Media posts.', async () => {
         const signedString = await TransactionFactory.getSignedOrganizationCreatesMediaPost(
           senderAccountName,
           senderActivePrivateKey,
@@ -56,7 +56,7 @@ describe('Transaction tests', () => {
         expect(data).toMatchObject(helper.getSamplePushResultForMediaPost());
       }, 10000);
 
-      it('should create valid transaction - organization creates post-offer', async () => {
+      it('Organization Post-offer.', async () => {
         const signedString = await TransactionFactory.getSignedOrganizationCreatesPostOffer(
           senderAccountName,
           senderActivePrivateKey,
@@ -125,9 +125,41 @@ describe('Transaction tests', () => {
   });
 
   describe('User direct actions related transactions', () => {
-    describe('User creates content', () => {
+    describe('User creates posts', () => {
+      it('User himself media posts.', async () => {
+        const signedString = await TransactionFactory.getSignedUserHimselfCreatesMediaPost(
+          senderAccountName,
+          senderActivePrivateKey,
+          'new_media_post_blockchain_id'
+        );
+
+        const signed = JSON.parse(signedString);
+
+        expect(signed).toMatchObject(helper.getSampleTransactionUserHimselfCreatesMediaPost());
+        const data = await TransactionSender.pushTransaction(signed.transaction);
+
+        expect(data).toMatchObject(helper.getSamplePushResultUserHimselfCreatesMediaPost());
+      }, 10000);
+
+      it('User himself post-offer.', async () => {
+        const signedString = await TransactionFactory.getSignedUserHimselfCreatesPostOffer(
+          senderAccountName,
+          senderActivePrivateKey,
+          'new_post_offer_blockchain_id'
+        );
+
+        const signed = JSON.parse(signedString);
+
+        expect(signed).toMatchObject(helper.getSampleTransactionUserHimselfCreatesPostOffer());
+        const data = await TransactionSender.pushTransaction(signed.transaction);
+
+        expect(data).toMatchObject(helper.getSamplePushResultUserHimselfCreatesPostOffer());
+      }, 10000);
+    });
+
+    describe('User creates comments', () => {
       it('Create comment directly for post - should create valid transaction', async () => {
-        const signedString = await TransactionFactory.getSignedUserHimselfCreatesComment(
+        const signedString = await TransactionFactory.getSignedUserHimselfCreatesCommentOnPost(
           senderAccountName,
           senderActivePrivateKey,
           'sample_new_comment_blockchain_id',

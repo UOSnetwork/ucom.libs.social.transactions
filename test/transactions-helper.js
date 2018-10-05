@@ -257,6 +257,34 @@ class TransactionsHelper {
       }
     }
   }
+  static getSampleTransactionUserHimselfCreatesMediaPost() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "makecontent",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb3361c6e65775f6d656469615f706f73745f626c6f636b636861696e5f69640100"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
   static getSampleTransactionForPostOffer() {
     return {
       "broadcast": false,
@@ -278,6 +306,34 @@ class TransactionsHelper {
                 }
               ],
               "data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69641973616d706c655f706f73745f626c6f636b636861696e5f69640200"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
+  static getSampleTransactionUserHimselfCreatesPostOffer() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "makecontent",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb3361c6e65775f706f73745f6f666665725f626c6f636b636861696e5f69640200"
             }
           ],
           "transaction_extensions": []
@@ -442,6 +498,47 @@ class TransactionsHelper {
         }
       }
   }
+  static getSamplePushResultUserHimselfCreatesMediaPost() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+          },
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "act_digest": "75a9e3050be8382a20e9e19c46bf2c35837adf77f1544c513b8611d0295e13d3",
+                "code_sequence": 5,
+                "abi_sequence": 5
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "makecontent",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "new_media_post_blockchain_id",
+                  "content_type_id": 1,
+                  "parent_content_id": "",
+                },
+                "hex_data": "00c05519ab4cb3361c6e65775f6d656469615f706f73745f626c6f636b636861696e5f69640100"
+              },
+              "cpu_usage": 0,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
 
   static getSamplePushResultForUserFollowsOrg() {
     return {
@@ -564,6 +661,47 @@ class TransactionsHelper {
               },
               "cpu_usage": 0,
               "console": `makecontent acc = ${SENDER_ACCOUNT_NAME}organization_id = sample_org_blockchain_id content_id = sample_post_blockchain_id content_type_id = 2 parent_content_id = `,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+  static getSamplePushResultUserHimselfCreatesPostOffer() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+          },
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "act_digest": "92f2d6403a64220dbfa8ecaf5c6ddced7839bff32b92d3851019753c683284ad",
+                "code_sequence": 5,
+                "abi_sequence": 5
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "makecontent",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "new_post_offer_blockchain_id",
+                  "content_type_id": 2,
+                  "parent_content_id": "",
+                },
+                "hex_data": "00c05519ab4cb3361c6e65775f706f73745f6f666665725f626c6f636b636861696e5f69640200"
+              },
+              "cpu_usage": 0,
               "total_cpu_usage": 0,
               "inline_traces": []
             }
