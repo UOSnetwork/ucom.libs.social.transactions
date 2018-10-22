@@ -1,7 +1,9 @@
 {
   "eos_config": {
-    "httpEndpoint": "https://api.uos.u.community:7888",
-    "test_smart_contract": "tst.activity",
-    "production_smart_contract": "uos.activity"
+    "staging_http_endpoint":      "https://staging-api-node-1.u.community:7888",
+    "production_http_endpoint":   "https://staging-api-node-1.u.community:7888",
+
+    "staging_smart_contract":     "uos.activity",
+    "production_smart_contract":  "uos.activity"
   }
 }
