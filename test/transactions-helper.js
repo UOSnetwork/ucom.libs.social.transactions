@@ -228,6 +228,62 @@ class TransactionsHelper {
       }
     }
   }
+  static getSampleUserUpvotesContent() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "usertocont",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696402"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
+  static getSampleUserDownvotesContent() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "usertocont",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696404"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
 
   static getSampleTransactionForMediaPost() {
     return {
@@ -617,6 +673,90 @@ class TransactionsHelper {
               },
               "cpu_usage": 0,
               "console": `usertocont acc = ${SENDER_ACCOUNT_NAME} content_id = sample_org_blockchain_id interaction_type_id = 5`,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+  static getSamplePushResultForUserUpvotesContent() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+            "net_usage_words": 16
+          },
+          "net_usage": 128,
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "act_digest": "db445e843c7af1a5b05d68890687815133cfcece05b79d3db093887fc0a6ec9c",
+                "code_sequence": 5,
+                "abi_sequence": 5
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "usertocont",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "sample_blockchain_id",
+                },
+                "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696402"
+              },
+              "cpu_usage": 0,
+              "console": `usertocont acc = autotester content_id = sample_blockchain_id interaction_type_id = 2`,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+  static getSamplePushResultForUserDownvotesContent() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+            "net_usage_words": 16
+          },
+          "net_usage": 128,
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "act_digest": "8968ea74fc53facb30b2c660bdd9b90f64b553dc8e8a6fdcc88937196e1e9749",
+                "code_sequence": 5,
+                "abi_sequence": 5
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "usertocont",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "sample_blockchain_id",
+                },
+                "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696404"
+              },
+              "cpu_usage": 0,
+              "console": `usertocont acc = autotester content_id = sample_blockchain_id interaction_type_id = 4`,
               "total_cpu_usage": 0,
               "inline_traces": []
             }

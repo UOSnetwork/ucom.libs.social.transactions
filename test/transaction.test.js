@@ -1,5 +1,6 @@
 const { TransactionFactory, TransactionSender } = require('../index');
 TransactionFactory.initForTestEnv();
+TransactionSender.initForTestEnv();
 
 const helper = require('./transactions-helper');
 
@@ -7,6 +8,39 @@ const senderAccountName       = helper.getSenderAccountName();
 const senderActivePrivateKey  = helper.getSenderActivePrivateKey();
 
 describe('Transaction tests', () => {
+  describe('User to content voting', () => {
+      it('User upvotes content', async () => {
+        const signedString = await TransactionFactory.getSignedUserUpvotesContent(
+          senderAccountName,
+          senderActivePrivateKey,
+          'sample_blockchain_id'
+        );
+
+        const signed = JSON.parse(signedString);
+
+        expect(signed).toMatchObject(helper.getSampleUserUpvotesContent());
+        const data = await TransactionSender.pushTransaction(signed.transaction);
+
+        expect(data).toMatchObject(helper.getSamplePushResultForUserUpvotesContent());
+      });
+
+      it('User downvotes content', async () => {
+        const signedString = await TransactionFactory.getSignedUserDownvotesContent(
+          senderAccountName,
+          senderActivePrivateKey,
+          'sample_blockchain_id'
+        );
+
+        const signed = JSON.parse(signedString);
+
+        expect(signed).toMatchObject(helper.getSampleUserDownvotesContent());
+        const data = await TransactionSender.pushTransaction(signed.transaction);
+
+        expect(data).toMatchObject(helper.getSamplePushResultForUserDownvotesContent());
+      }, 10000);
+  });
+
+
   describe('Organization related transactions', function () {
     describe('User - organization interaction', () => {
       it('should create valid transaction - user follows organization', async () => {
@@ -103,7 +137,7 @@ describe('Transaction tests', () => {
         const data = await TransactionSender.pushTransaction(signed.transaction);
 
         expect(data).toMatchObject(helper.getSamplePushResultForOrgCreatesCommentOnComment());
-      });
+      }, 10000);
     });
 
     describe('User creates organization', () => {
