@@ -121,7 +121,7 @@ describe('Transaction tests', () => {
         const data = await TransactionSender.pushTransaction(signed.transaction);
 
         expect(data).toMatchObject(helper.getSamplePushResultForOrgCreatesCommentOnPost());
-      });
+      }, 10000);
 
       it('comment on comment creation - should create valid transaction', async () => {
         const signedString = await TransactionFactory.getSignedOrganizationCreatesCommentOnComment(
@@ -206,7 +206,7 @@ describe('Transaction tests', () => {
         const data = await TransactionSender.pushTransaction(signed.transaction);
 
         expect(data).toMatchObject(helper.getSamplePushResultForUserHimselfCreatesCommentOnPost());
-      }, 10000);
+      }, 20000);
 
       it('comment on comment creation - should create valid transaction', async () => {
         const signedString = await TransactionFactory.getSignedUserHimselfCreatesCommentOnComment(
@@ -221,7 +221,7 @@ describe('Transaction tests', () => {
         const data = await TransactionSender.pushTransaction(signed.transaction);
 
         expect(data).toMatchObject(helper.getSamplePushResultForUserHimselfCreatesCommentOnComment());
-      });
+      }, 20000);
     });
   });
 

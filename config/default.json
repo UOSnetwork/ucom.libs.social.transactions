@@ -4,6 +4,10 @@
     "staging_http_endpoint":      "https://staging-api-node-1.u.community:7888",
     "production_http_endpoint":   "https://api-node-1.u.community:7888",
 
+    "test_chain_id":        "cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f",
+    "staging_chain_id":     "cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f",
+    "production_chain_id":  "61887243d4467f0061b462a63a3e40f3dce917ed7d7cc6a79ad9a1a3be7e5e1e",
+
     "test_smart_contract":        "tst.activity",
     "staging_smart_contract":     "uos.activity",
     "production_smart_contract":  "uos.activity"
