@@ -8,6 +8,74 @@ const senderAccountName       = helper.getSenderAccountName();
 const senderActivePrivateKey  = helper.getSenderActivePrivateKey();
 
 describe('Transaction tests', () => {
+  describe('Content creation', () => {
+    it('User creates repost for existing post', async () => {
+      const signedString = await TransactionFactory.getSignedUserCreatesRepostOtherPost(
+        senderAccountName,
+        senderActivePrivateKey,
+        'new_repost_blockchain_id',
+        'parent_post_blockchain_id',
+      );
+
+      const signed = JSON.parse(signedString);
+
+      expect(signed).toMatchObject(helper.getSampleTransactionUserCreatesRepostForOtherPost());
+      const data = await TransactionSender.pushTransaction(signed.transaction);
+
+      expect(data).toMatchObject(helper.getSamplePushResultUserCreatesRepostOfOtherPost());
+    }, 10000);
+
+    describe('Direct post', () => {
+
+      it('User creates direct post for other user', async () => {
+
+        const accountNameTo = 'samplaccount';
+        const blockchainId  = 'sample_blockchain_id';
+
+        const signedString = await TransactionFactory.getSignedDirectPostCreationForUser(
+          senderAccountName,
+          senderActivePrivateKey,
+          accountNameTo,
+          blockchainId
+        );
+
+        const signed = JSON.parse(signedString);
+
+        console.dir(signed);
+
+        // expect(signed).toMatchObject(helper.getSampleUserUpvotesContent());
+        const data = await TransactionSender.pushTransaction(signed.transaction);
+
+        console.dir(data);
+
+        // expect(data).toMatchObject(helper.getSamplePushResultForUserUpvotesContent());
+      }, 10000);
+
+      it('User creates direct post for org', async () => {
+        const organizationIdTo = 'sample_organization_blockchain_id';
+        const blockchainId  = 'sample_content_blockchain_id';
+
+        const signedString = await TransactionFactory.getSignedDirectPostCreationForOrg(
+          senderAccountName,
+          senderActivePrivateKey,
+          organizationIdTo,
+          blockchainId
+        );
+
+        const signed = JSON.parse(signedString);
+
+        console.dir(signed);
+
+        // expect(signed).toMatchObject(helper.getSampleUserUpvotesContent());
+        const data = await TransactionSender.pushTransaction(signed.transaction);
+
+        console.dir(data);
+        // expect(data).toMatchObject(helper.getSamplePushResultForUserUpvotesContent());
+      }, 10000);
+    });
+
+  });
+
   describe('User to content voting', () => {
       it('User upvotes content', async () => {
         const signedString = await TransactionFactory.getSignedUserUpvotesContent(
@@ -22,7 +90,7 @@ describe('Transaction tests', () => {
         const data = await TransactionSender.pushTransaction(signed.transaction);
 
         expect(data).toMatchObject(helper.getSamplePushResultForUserUpvotesContent());
-      });
+      }, 10000);
 
       it('User downvotes content', async () => {
         const signedString = await TransactionFactory.getSignedUserDownvotesContent(

@@ -35,8 +35,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "ecbe0b091e0ce7a6f9bb23fd2ff2f17eb7d47306adb129f4bc322558802cf777",
-                // "code_sequence": 1,
-                // "abi_sequence": 1
               },
               "act": {
                 "account": "tst.activity",
@@ -138,8 +136,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "b62814e71f1794008b39646c8f6099254080344da7209744cf3ff3f35421b697",
-                // "code_sequence": 1,
-                // "abi_sequence": 1
               },
               "act": {
                 "account": "tst.activity",
@@ -341,6 +337,35 @@ class TransactionsHelper {
       }
     }
   }
+
+  static getSampleTransactionUserCreatesRepostForOtherPost() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "makecontent",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb336186e65775f7265706f73745f626c6f636b636861696e5f69640b19706172656e745f706f73745f626c6f636b636861696e5f6964"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
   static getSampleTransactionForPostOffer() {
     return {
       "broadcast": false,
@@ -524,8 +549,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "9124fa0b78fae922fa7bec56e58f92cdd394858ece3cedb1f54644d3eb1eb878",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -566,8 +589,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "75a9e3050be8382a20e9e19c46bf2c35837adf77f1544c513b8611d0295e13d3",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -595,6 +616,45 @@ class TransactionsHelper {
         }
       }
   }
+  static getSamplePushResultUserCreatesRepostOfOtherPost() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+          },
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "act_digest": "0341c4795ddfb33733f79411821d12aac8d400833c7249177a64ffdb00c7a9cf",
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "makecontent",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "new_repost_blockchain_id",
+                  "content_type_id": 11,
+                  "parent_content_id": "parent_post_blockchain_id",
+                },
+                "hex_data": "00c05519ab4cb336186e65775f7265706f73745f626c6f636b636861696e5f69640b19706172656e745f706f73745f626c6f636b636861696e5f6964"
+              },
+              "cpu_usage": 0,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
 
   static getSamplePushResultForUserFollowsOrg() {
     return {
@@ -610,8 +670,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "80a7e0a91fd33f802dd7cbcb4f0e0fc040b29b9144121aa90ab808ea3506e4fa",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -653,8 +711,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "396370df540759c63fe4fc19eb7ae9be9f430870b50e65d8217d376cc68bd937",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -695,8 +751,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "db445e843c7af1a5b05d68890687815133cfcece05b79d3db093887fc0a6ec9c",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -737,8 +791,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "8968ea74fc53facb30b2c660bdd9b90f64b553dc8e8a6fdcc88937196e1e9749",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -779,8 +831,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "527de82903144acb0744268e9f17cfb7e5bfd3e30764001978838533c6e220d9",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -821,8 +871,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "92f2d6403a64220dbfa8ecaf5c6ddced7839bff32b92d3851019753c683284ad",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -861,8 +909,6 @@ class TransactionsHelper {
             {
               "receipt": {
                 "receiver": "tst.activity",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -901,8 +947,6 @@ class TransactionsHelper {
             {
               "receipt": {
                 "receiver": "tst.activity",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -943,8 +987,6 @@ class TransactionsHelper {
               "receipt": {
                 "receiver": "tst.activity",
                 "act_digest": "098cf19c5d9131eecac8792ee6d313f3cc9c969455f944f4fb72a8c9b03fecb2",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",
@@ -984,8 +1026,6 @@ class TransactionsHelper {
             {
               "receipt": {
                 "receiver": "tst.activity",
-                "code_sequence": 5,
-                "abi_sequence": 5
               },
               "act": {
                 "account": "tst.activity",

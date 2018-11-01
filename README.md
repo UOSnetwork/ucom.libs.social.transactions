@@ -4,6 +4,37 @@
 
 This package is used to generate signed transactions related to different users actions.
 
+## Content type dictionary
+
+number | description
+--- | ---
+`1` | Media post
+`2` | Post-offer
+`10` | Direct post (like a comment directly on user or on org)
+`11` | Repost of other post
+`3` | Comment
+`4` | Organization (Community)
+
+## Interaction type dictionary
+number | description
+--- | ---
+`1` | Follow
+`5` | Unfollow
+`2` | Upvote (like)
+`4` | Downvote (dislike)
+`3` | Join (to the post-offer)
+`20` | Organization team invitation. Not implemented yet
+
+## Action name dictionary
+name | description
+--- | ---
+`usertouser` | User to user interaction, for ex. follow
+`makecontent` | User makes content by himself (not by organization)
+`makecontorg` | Organization (organization member) makes content
+`usertocont` | User to content interaction, for ex. upvote
+`dirpost` | User creates direct post on other user
+`dirpostorg` | User creates direct post on organization
+
 ## Workflow
 1. Call one of the methods and receive signed transaction.
 2. Send this transaction as is to backend server. Backend server will push this transaction to blockchain.
