@@ -252,6 +252,92 @@ class TransactionsHelper {
       }
     }
   }
+
+  static getSampleUserCreatesDirectPostOnOtherUserPost() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "usertocont",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696402"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
+
+  static getSampleUserCreatesDirectPostOnOrg() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "dirpostorg",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb3361c73616d706c655f636f6e74656e745f626c6f636b636861696e5f69642173616d706c655f6f7267616e697a6174696f6e5f626c6f636b636861696e5f69640a"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
+  static getSampleUserCreatesDirectPostOnOtherUser() {
+    return {
+      "broadcast": false,
+      "transaction": {
+        "compression": "none",
+        "transaction": {
+          "max_net_usage_words": 0,
+          "max_cpu_usage_ms": 0,
+          "delay_sec": 0,
+          "context_free_actions": [],
+          "actions": [
+            {
+              "account": "tst.activity",
+              "name": "dirpost",
+              "authorization": [
+                {
+                  "actor": SENDER_ACCOUNT_NAME,
+                  "permission": "active"
+                }
+              ],
+              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696490a7a6089958a5c10a"
+            }
+          ],
+          "transaction_extensions": []
+        },
+      }
+    }
+  }
   static getSampleUserDownvotesContent() {
     return {
       "broadcast": false,
@@ -769,6 +855,88 @@ class TransactionsHelper {
               },
               "cpu_usage": 0,
               "console": `usertocont acc = autotester content_id = sample_blockchain_id interaction_type_id = 2`,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+
+  static getSamplePushResultForUserCreatesDirectPostOnOrg() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+            "net_usage_words": 21
+          },
+          "net_usage": 168,
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "act_digest": "ddca9342c4da8bf5f8d9a69f3bc75e9659558e7cc71440ae7762333e1d6ac070",
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "dirpostorg",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "sample_content_blockchain_id",
+                },
+                "hex_data": "00c05519ab4cb3361c73616d706c655f636f6e74656e745f626c6f636b636861696e5f69642173616d706c655f6f7267616e697a6174696f6e5f626c6f636b636861696e5f69640a"
+              },
+              "cpu_usage": 0,
+              "console": `dirpostorg acc = autotester content_id = sample_content_blockchain_id organization_to_id = sample_organization_blockchain_id content_type_id = 10`,
+              "total_cpu_usage": 0,
+              "inline_traces": []
+            }
+          ],
+          "except": null
+        }
+      }
+  }
+
+  static getSamplePushResultForUserCreatesDirectPostOnOtherUser() {
+    return {
+        "processed": {
+          "receipt": {
+            "status": "executed",
+            "net_usage_words": 17
+          },
+          "net_usage": 136,
+          "scheduled": false,
+          "action_traces": [
+            {
+              "receipt": {
+                "receiver": "tst.activity",
+                "act_digest": "12e215c22870806ff0fd551ccc2eabc70f40526e70f400d3070c87e23914ffbf",
+              },
+              "act": {
+                "account": "tst.activity",
+                "name": "dirpost",
+                "authorization": [
+                  {
+                    "actor": SENDER_ACCOUNT_NAME,
+                    "permission": "active"
+                  }
+                ],
+                "data": {
+                  "acc": SENDER_ACCOUNT_NAME,
+                  "content_id": "sample_blockchain_id",
+                },
+                "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696490a7a6089958a5c10a"
+              },
+              "cpu_usage": 0,
+              "console": `dirpost acc = autotester content_id = sample_blockchain_id acc_to = samplaccount content_type_id = 10`,
               "total_cpu_usage": 0,
               "inline_traces": []
             }

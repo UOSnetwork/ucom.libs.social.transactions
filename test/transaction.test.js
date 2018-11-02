@@ -26,7 +26,6 @@ describe('Transaction tests', () => {
     }, 10000);
 
     describe('Direct post', () => {
-
       it('User creates direct post for other user', async () => {
 
         const accountNameTo = 'samplaccount';
@@ -41,14 +40,10 @@ describe('Transaction tests', () => {
 
         const signed = JSON.parse(signedString);
 
-        console.dir(signed);
-
-        // expect(signed).toMatchObject(helper.getSampleUserUpvotesContent());
+        expect(signed).toMatchObject(helper.getSampleUserCreatesDirectPostOnOtherUser());
         const data = await TransactionSender.pushTransaction(signed.transaction);
+        expect(data).toMatchObject(helper.getSamplePushResultForUserCreatesDirectPostOnOtherUser());
 
-        console.dir(data);
-
-        // expect(data).toMatchObject(helper.getSamplePushResultForUserUpvotesContent());
       }, 10000);
 
       it('User creates direct post for org', async () => {
@@ -63,17 +58,12 @@ describe('Transaction tests', () => {
         );
 
         const signed = JSON.parse(signedString);
-
-        console.dir(signed);
-
-        // expect(signed).toMatchObject(helper.getSampleUserUpvotesContent());
+        expect(signed).toMatchObject(helper.getSampleUserCreatesDirectPostOnOrg());
         const data = await TransactionSender.pushTransaction(signed.transaction);
 
-        console.dir(data);
-        // expect(data).toMatchObject(helper.getSamplePushResultForUserUpvotesContent());
+        expect(data).toMatchObject(helper.getSamplePushResultForUserCreatesDirectPostOnOrg());
       }, 10000);
     });
-
   });
 
   describe('User to content voting', () => {
