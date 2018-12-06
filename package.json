@@ -1,5 +1,5 @@
 {
-  "name": "uos-app-transaction",
+  "name": "ucom-libs-social-transactions",
   "version": "0.15.0",
   "description": "NPM package to sign UOS transactions",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/gravityprotocol/uos.app.transaction.git"
+    "url": "git@github.com:UOSnetwork/ucom.libs.social.transactions.git"
   },
   "keywords": [
     "UOS",
@@ -18,7 +18,7 @@
   ],
   "author": "UOS",
   "license": "MIT",
-  "homepage": "https://github.com/UOSnetwork/uos.app.transaction#readme",
+  "homepage": "https://github.com/UOSnetwork/ucom.libs.social.transactions/blob/master/README.md",
   "devDependencies": {
     "jest": "23.6.0"
   },
