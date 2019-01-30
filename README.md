@@ -1,4 +1,4 @@
-# UOS Application transactions
+# U°OS Application Transactions
 
 ## Goal
 
@@ -78,3 +78,4 @@ TransactionFactory.initForTestEnv();
   // Then send this value in request body
 })();
 ```
+See also [CONTRIBUTING](../../../uos.docs/blob/master/CONTRIBUTING.md) for detailed project information.
