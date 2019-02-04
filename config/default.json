@@ -1,6 +1,6 @@
 {
   "eos_config": {
-    "test_http_endpoint":         "https://staging-api-node-1.u.community:7888",
+    "test_http_endpoint":         "https://staging-api-node-2.u.community:7888",
     "staging_http_endpoint":      "https://staging-api-node-2.u.community:7888",
     "production_http_endpoint":   "https://api-node-1.u.community:7888",
 
