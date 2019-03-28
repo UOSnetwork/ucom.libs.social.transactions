@@ -1,6 +1,6 @@
 {
   "name": "ucom-libs-social-transactions",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "NPM package to sign UOS transactions",
   "main": "index.js",
   "scripts": {
