@@ -1,5 +1,8 @@
 # U°OS Application Transactions
 
+# Warning: this library has been deprecated
+Please see this library: [ucom.libs.wallet](../../../ucom.libs.wallet)
+
 ## Goal
 
 This package is used to generate signed transactions related to different users actions.
