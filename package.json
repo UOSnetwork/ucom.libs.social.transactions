@@ -23,6 +23,6 @@
     "jest": "23.6.0"
   },
   "dependencies": {
-    "eosjs": "16.0.8"
+    "eosjs": "^16.0.0"
   }
 }
