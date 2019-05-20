@@ -1,24 +1,58 @@
-const SENDER_ACCOUNT_NAME       = 'autotester';
-const SENDER_ACTIVE_PRIVATE_KEY = '5JqPw7wHJ9MvDake6yfnvoYGvB6mhgHLCLafezkFGgGN67E9N6V';
+const config = require('../config/default.json');
+const accountsData = require('../../secrets/accounts-data');
+
+const { TransactionFactory, TransactionSender } = require('../index');
 
 class TransactionsHelper {
+  static initByNodeEnv() {
+    switch(process.env.NODE_ENV) {
+      case 'test':
+        TransactionFactory.initForTestEnv();
+        TransactionSender.initForTestEnv();
+        break;
+      case 'staging':
+        TransactionFactory.initForStagingEnv();
+        TransactionSender.initForStagingEnv();
+        break;
+      case 'production':
+        TransactionFactory.initForProductionEnv();
+        TransactionSender.initForProductionEnv();
+        break;
+      default:
+        throw new TypeError(`Unsupported env: ${process.env.NODE_ENV}`);
+    }
+  }
 
   /**
    *
    * @return {string}
    */
   static getSenderAccountName() {
-    return SENDER_ACCOUNT_NAME;
+    if (process.env.NODE_ENV === 'production') {
+      return accountsData.summerknight.account_name;
+    }
+
+    return accountsData.staging_autotester.account_name
   }
 
+  static getRecipientAccountName() {
+    if (process.env.NODE_ENV === 'production') {
+      return accountsData.autumnknight.account_name;
+    }
 
+    return accountsData.jane.account_name
+  }
 
   /**
    *
    * @return {string}
    */
   static getSenderActivePrivateKey() {
-    return SENDER_ACTIVE_PRIVATE_KEY;
+    if (process.env.NODE_ENV === 'production') {
+      return accountsData.summerknight.activePk;
+    }
+
+    return accountsData.staging_autotester.activePk
   }
 
   static getExpectedUserFollowsUserTransactionPushResponse() {
@@ -33,28 +67,23 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "ecbe0b091e0ce7a6f9bb23fd2ff2f17eb7d47306adb129f4bc322558802cf777",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "usertouser",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc_from": SENDER_ACCOUNT_NAME,
-                  "acc_to": "jane",
+                  "acc_from": this.getSenderAccountName(),
+                  "acc_to": this.getRecipientAccountName(),
                   "interaction_type_id": 1
                 },
-                "hex_data": "00c05519ab4cb3360000000000a0a67901"
               },
-              "cpu_usage": 0,
-              "console": `usertouser acc_from = ${SENDER_ACCOUNT_NAME} acc_to = jane interaction_type_id = 1`,
-              "total_cpu_usage": 0,
               "inline_traces": []
             }
           ],
@@ -70,21 +99,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "usertouser",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3360000000000a0a67901"
             }
           ],
           "transaction_extensions": []
@@ -99,21 +126,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontent",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f69640400"
             }
           ],
           "transaction_extensions": []
@@ -134,29 +159,26 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "b62814e71f1794008b39646c8f6099254080344da7209744cf3ff3f35421b697",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontent",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_blockchain_id",
                   "content_type_id": 4,
                   "parent_content_id": "",
                 },
-                "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f69640400"
+                // "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f69640400"
               },
-              "cpu_usage": 0,
-              "console": `makecontent acc = ${SENDER_ACCOUNT_NAME} content_id = sample_blockchain_id content_type_id = 4 parent_content_id = `,
-              "total_cpu_usage": 0,
+              // "console": `makecontent acc = ${this.getSenderAccountName()} content_id = sample_blockchain_id content_type_id = 4 parent_content_id = `,
               "inline_traces": []
             }
           ],
@@ -173,21 +195,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "usertocont",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f696401"
             }
           ],
           "transaction_extensions": []
@@ -202,21 +222,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "usertocont",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f696405"
             }
           ],
           "transaction_extensions": []
@@ -230,21 +248,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "usertocont",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696402"
             }
           ],
           "transaction_extensions": []
@@ -259,21 +275,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "usertocont",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696402"
             }
           ],
           "transaction_extensions": []
@@ -288,21 +302,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "dirpostorg",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361c73616d706c655f636f6e74656e745f626c6f636b636861696e5f69642173616d706c655f6f7267616e697a6174696f6e5f626c6f636b636861696e5f69640a"
             }
           ],
           "transaction_extensions": []
@@ -316,21 +328,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "dirpost",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696490a7a6089958a5c10a"
             }
           ],
           "transaction_extensions": []
@@ -344,21 +354,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "usertocont",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696404"
             }
           ],
           "transaction_extensions": []
@@ -373,21 +381,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontorg",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69641973616d706c655f706f73745f626c6f636b636861696e5f69640100"
             }
           ],
           "transaction_extensions": []
@@ -401,26 +407,37 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontent",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361c6e65775f6d656469615f706f73745f626c6f636b636861696e5f69640100"
             }
           ],
           "transaction_extensions": []
         },
       }
+    }
+  }
+
+  static getSmartContractByEnv() {
+    switch(process.env.NODE_ENV) {
+      case 'test':
+        return config.eos_config.test_smart_contract;
+      case 'staging':
+        return config.eos_config.staging_smart_contract;
+      case 'production':
+        return config.eos_config.staging_smart_contract;
+      default:
+        throw new TypeError(`Unsupported env: ${process.env.NODE_ENV}`);
     }
   }
 
@@ -430,21 +447,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontent",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb336186e65775f7265706f73745f626c6f636b636861696e5f69640b19706172656e745f706f73745f626c6f636b636861696e5f6964"
             }
           ],
           "transaction_extensions": []
@@ -458,21 +473,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontorg",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69641973616d706c655f706f73745f626c6f636b636861696e5f69640200"
             }
           ],
           "transaction_extensions": []
@@ -486,21 +499,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontent",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361c6e65775f706f73745f6f666665725f626c6f636b636861696e5f69640200"
             }
           ],
           "transaction_extensions": []
@@ -514,17 +525,16 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontorg",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
@@ -542,17 +552,16 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontent",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
@@ -570,21 +579,19 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontorg",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
-              "data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69642073616d706c655f6e65775f636f6d6d656e745f626c6f636b636861696e5f6964032373616d706c655f706172656e745f636f6d6d656e745f626c6f636b636861696e5f6964"
             }
           ],
           "transaction_extensions": []
@@ -599,17 +606,16 @@ class TransactionsHelper {
       "transaction": {
         "compression": "none",
         "transaction": {
-          "max_net_usage_words": 0,
           "max_cpu_usage_ms": 0,
           "delay_sec": 0,
           "context_free_actions": [],
           "actions": [
             {
-              "account": "tst.activity",
+              "account": this.getSmartContractByEnv(),
               "name": "makecontent",
               "authorization": [
                 {
-                  "actor": SENDER_ACCOUNT_NAME,
+                  "actor": this.getSenderAccountName(),
                   "permission": "active"
                 }
               ],
@@ -633,29 +639,25 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "9124fa0b78fae922fa7bec56e58f92cdd394858ece3cedb1f54644d3eb1eb878",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontorg",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_post_blockchain_id",
                   "content_type_id": 1,
                   "parent_content_id": "",
                 },
-                "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69641973616d706c655f706f73745f626c6f636b636861696e5f69640100"
+                // "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69641973616d706c655f706f73745f626c6f636b636861696e5f69640100"
               },
-              "cpu_usage": 0,
-              "console": `makecontent acc = ${SENDER_ACCOUNT_NAME}organization_id = sample_org_blockchain_id content_id = sample_post_blockchain_id content_type_id = 1 parent_content_id = `,
-              "total_cpu_usage": 0,
               "inline_traces": []
             }
           ],
@@ -673,28 +675,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "75a9e3050be8382a20e9e19c46bf2c35837adf77f1544c513b8611d0295e13d3",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontent",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "new_media_post_blockchain_id",
                   "content_type_id": 1,
                   "parent_content_id": "",
                 },
-                "hex_data": "00c05519ab4cb3361c6e65775f6d656469615f706f73745f626c6f636b636861696e5f69640100"
               },
-              "cpu_usage": 0,
-              "total_cpu_usage": 0,
               "inline_traces": []
             }
           ],
@@ -712,28 +710,25 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "0341c4795ddfb33733f79411821d12aac8d400833c7249177a64ffdb00c7a9cf",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontent",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "new_repost_blockchain_id",
                   "content_type_id": 11,
                   "parent_content_id": "parent_post_blockchain_id",
                 },
-                "hex_data": "00c05519ab4cb336186e65775f7265706f73745f626c6f636b636861696e5f69640b19706172656e745f706f73745f626c6f636b636861696e5f6964"
+                // "hex_data": "00c05519ab4cb336186e65775f7265706f73745f626c6f636b636861696e5f69640b19706172656e745f706f73745f626c6f636b636861696e5f6964"
               },
-              "cpu_usage": 0,
-              "total_cpu_usage": 0,
               "inline_traces": []
             }
           ],
@@ -754,27 +749,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "80a7e0a91fd33f802dd7cbcb4f0e0fc040b29b9144121aa90ab808ea3506e4fa",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "usertocont",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_org_blockchain_id",
                 },
-                "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f696401"
+                // "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f696401"
               },
-              "cpu_usage": 0,
-              "console": `usertocont acc = ${SENDER_ACCOUNT_NAME} content_id = sample_org_blockchain_id interaction_type_id = 1`,
-              "total_cpu_usage": 0,
+              // "console": `usertocont acc = ${this.getSenderAccountName()} content_id = sample_org_blockchain_id interaction_type_id = 1`,
               "inline_traces": []
             }
           ],
@@ -795,27 +787,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "396370df540759c63fe4fc19eb7ae9be9f430870b50e65d8217d376cc68bd937",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "usertocont",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_org_blockchain_id",
                 },
-                "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f696405"
+                // "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f696405"
               },
-              "cpu_usage": 0,
-              "console": `usertocont acc = ${SENDER_ACCOUNT_NAME} content_id = sample_org_blockchain_id interaction_type_id = 5`,
-              "total_cpu_usage": 0,
+              // "console": `usertocont acc = ${this.getSenderAccountName()} content_id = sample_org_blockchain_id interaction_type_id = 5`,
               "inline_traces": []
             }
           ],
@@ -835,27 +824,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "db445e843c7af1a5b05d68890687815133cfcece05b79d3db093887fc0a6ec9c",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "usertocont",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_blockchain_id",
                 },
-                "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696402"
+                // "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696402"
               },
-              "cpu_usage": 0,
-              "console": `usertocont acc = autotester content_id = sample_blockchain_id interaction_type_id = 2`,
-              "total_cpu_usage": 0,
+              // "console": `usertocont acc = autotester content_id = sample_blockchain_id interaction_type_id = 2`,
               "inline_traces": []
             }
           ],
@@ -876,27 +862,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "ddca9342c4da8bf5f8d9a69f3bc75e9659558e7cc71440ae7762333e1d6ac070",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "dirpostorg",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_content_blockchain_id",
                 },
-                "hex_data": "00c05519ab4cb3361c73616d706c655f636f6e74656e745f626c6f636b636861696e5f69642173616d706c655f6f7267616e697a6174696f6e5f626c6f636b636861696e5f69640a"
+                // "hex_data": "00c05519ab4cb3361c73616d706c655f636f6e74656e745f626c6f636b636861696e5f69642173616d706c655f6f7267616e697a6174696f6e5f626c6f636b636861696e5f69640a"
               },
-              "cpu_usage": 0,
-              "console": `dirpostorg acc = autotester content_id = sample_content_blockchain_id organization_to_id = sample_organization_blockchain_id content_type_id = 10`,
-              "total_cpu_usage": 0,
+              // "console": `dirpostorg acc = autotester content_id = sample_content_blockchain_id organization_to_id = sample_organization_blockchain_id content_type_id = 10`,
               "inline_traces": []
             }
           ],
@@ -917,27 +900,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "12e215c22870806ff0fd551ccc2eabc70f40526e70f400d3070c87e23914ffbf",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "dirpost",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_blockchain_id",
                 },
-                "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696490a7a6089958a5c10a"
+                // "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696490a7a6089958a5c10a"
               },
-              "cpu_usage": 0,
-              "console": `dirpost acc = autotester content_id = sample_blockchain_id acc_to = samplaccount content_type_id = 10`,
-              "total_cpu_usage": 0,
+              // "console": `dirpost acc = autotester content_id = sample_blockchain_id acc_to = samplaccount content_type_id = 10`,
               "inline_traces": []
             }
           ],
@@ -957,27 +937,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "8968ea74fc53facb30b2c660bdd9b90f64b553dc8e8a6fdcc88937196e1e9749",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "usertocont",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_blockchain_id",
                 },
-                "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696404"
+                // "hex_data": "00c05519ab4cb3361473616d706c655f626c6f636b636861696e5f696404"
               },
-              "cpu_usage": 0,
-              "console": `usertocont acc = autotester content_id = sample_blockchain_id interaction_type_id = 4`,
-              "total_cpu_usage": 0,
+              // "console": `usertocont acc = autotester content_id = sample_blockchain_id interaction_type_id = 4`,
               "inline_traces": []
             }
           ],
@@ -997,29 +974,26 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "527de82903144acb0744268e9f17cfb7e5bfd3e30764001978838533c6e220d9",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontorg",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_post_blockchain_id",
                   "content_type_id": 2,
                   "parent_content_id": "",
                 },
-                "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69641973616d706c655f706f73745f626c6f636b636861696e5f69640200"
+                // "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69641973616d706c655f706f73745f626c6f636b636861696e5f69640200"
               },
-              "cpu_usage": 0,
-              "console": `makecontent acc = ${SENDER_ACCOUNT_NAME}organization_id = sample_org_blockchain_id content_id = sample_post_blockchain_id content_type_id = 2 parent_content_id = `,
-              "total_cpu_usage": 0,
+              // "console": `makecontent acc = ${this.getSenderAccountName()}organization_id = sample_org_blockchain_id content_id = sample_post_blockchain_id content_type_id = 2 parent_content_id = `,
               "inline_traces": []
             }
           ],
@@ -1037,28 +1011,25 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "92f2d6403a64220dbfa8ecaf5c6ddced7839bff32b92d3851019753c683284ad",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontent",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "new_post_offer_blockchain_id",
                   "content_type_id": 2,
                   "parent_content_id": "",
                 },
-                "hex_data": "00c05519ab4cb3361c6e65775f706f73745f6f666665725f626c6f636b636861696e5f69640200"
+                // "hex_data": "00c05519ab4cb3361c6e65775f706f73745f6f666665725f626c6f636b636861696e5f69640200"
               },
-              "cpu_usage": 0,
-              "total_cpu_usage": 0,
               "inline_traces": []
             }
           ],
@@ -1076,26 +1047,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontorg",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_new_comment_blockchain_id",
                   "content_type_id": 3,
                   "parent_content_id": "sample_parent_post_blockchain_id",
                 },
               },
-              "cpu_usage": 0,
-              "total_cpu_usage": 0,
               "inline_traces": []
             }
           ],
@@ -1114,26 +1083,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontent",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_new_comment_blockchain_id",
                   "content_type_id": 3,
                   "parent_content_id": "sample_parent_post_blockchain_blockchain_id",
                 },
               },
-              "cpu_usage": 0,
-              "total_cpu_usage": 0,
               "inline_traces": []
             }
           ],
@@ -1153,29 +1120,26 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
-                "act_digest": "098cf19c5d9131eecac8792ee6d313f3cc9c969455f944f4fb72a8c9b03fecb2",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontorg",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_new_comment_blockchain_id",
                   "content_type_id": 3,
                   "parent_content_id": "sample_parent_comment_blockchain_id",
                 },
-                "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69642073616d706c655f6e65775f636f6d6d656e745f626c6f636b636861696e5f6964032373616d706c655f706172656e745f636f6d6d656e745f626c6f636b636861696e5f6964"
+                // "hex_data": "00c05519ab4cb3361873616d706c655f6f72675f626c6f636b636861696e5f69642073616d706c655f6e65775f636f6d6d656e745f626c6f636b636861696e5f6964032373616d706c655f706172656e745f636f6d6d656e745f626c6f636b636861696e5f6964"
               },
-              "cpu_usage": 0,
-              "console": `makecontent acc = ${SENDER_ACCOUNT_NAME}organization_id = sample_org_blockchain_id content_id = sample_new_comment_blockchain_id content_type_id = 3 parent_content_id = sample_parent_comment_blockchain_id`,
-              "total_cpu_usage": 0,
+              // "console": `makecontent acc = ${this.getSenderAccountName()}organization_id = sample_org_blockchain_id content_id = sample_new_comment_blockchain_id content_type_id = 3 parent_content_id = sample_parent_comment_blockchain_id`,
               "inline_traces": []
             }
           ],
@@ -1193,26 +1157,24 @@ class TransactionsHelper {
           "action_traces": [
             {
               "receipt": {
-                "receiver": "tst.activity",
+                "receiver": this.getSmartContractByEnv(),
               },
               "act": {
-                "account": "tst.activity",
+                "account": this.getSmartContractByEnv(),
                 "name": "makecontent",
                 "authorization": [
                   {
-                    "actor": SENDER_ACCOUNT_NAME,
+                    "actor": this.getSenderAccountName(),
                     "permission": "active"
                   }
                 ],
                 "data": {
-                  "acc": SENDER_ACCOUNT_NAME,
+                  "acc": this.getSenderAccountName(),
                   "content_id": "sample_new_comment_blockchain_id",
                   "content_type_id": 3,
                   "parent_content_id": "sample_parent_comment_blockchain_id",
                 },
               },
-              "cpu_usage": 0,
-              "total_cpu_usage": 0,
               "inline_traces": []
             }
           ],

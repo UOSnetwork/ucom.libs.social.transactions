@@ -20,9 +20,9 @@
   "license": "MIT",
   "homepage": "https://github.com/UOSnetwork/ucom.libs.social.transactions/blob/master/README.md",
   "devDependencies": {
-    "jest": "23.6.0"
+    "jest": "^24.8.0"
   },
   "dependencies": {
-    "eosjs": "^16.0.0"
+    "eosjs": "16.0.0"
   }
 }

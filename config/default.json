@@ -1,8 +1,8 @@
 {
   "eos_config": {
-    "test_http_endpoint":         "https://staging-api-node-2.u.community:7888",
-    "staging_http_endpoint":      "https://staging-api-node-2.u.community:7888",
-    "production_http_endpoint":   "https://mini-mongo.u.community:7889",
+    "test_http_endpoint":         "https://staging-mini-mongo.u.community:6888",
+    "staging_http_endpoint":      "https://staging-mini-mongo.u.community:6888",
+    "production_http_endpoint":   "https://mini-mongo.u.community:6889",
 
     "test_chain_id":        "cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f",
     "staging_chain_id":     "cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f",

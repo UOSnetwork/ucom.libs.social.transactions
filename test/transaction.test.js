@@ -1,8 +1,8 @@
 const { TransactionFactory, TransactionSender } = require('../index');
-TransactionFactory.initForTestEnv();
-TransactionSender.initForTestEnv();
 
 const helper = require('./transactions-helper');
+
+helper.initByNodeEnv();
 
 const senderAccountName       = helper.getSenderAccountName();
 const senderActivePrivateKey  = helper.getSenderActivePrivateKey();
@@ -285,7 +285,7 @@ describe('Transaction tests', () => {
 
   describe('User follows-unfollows other user', () => {
     it('should create valid user-to-user signed transaction and push it successfully', async () => {
-      const recipientAccountName = 'jane';
+      const recipientAccountName = helper.getRecipientAccountName();
 
       const signedString = await TransactionFactory.getSignedUserFollowsUser(
         senderAccountName,
